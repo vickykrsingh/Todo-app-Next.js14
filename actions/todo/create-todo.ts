@@ -1,15 +1,29 @@
-import { dbConnection } from "@/lib/dbConnect"
-import { ITodo, todoModel } from "@/models/todoModel"
+"use server"
+import dbConnection  from "@/lib/dbConnect"
+import verifyToken, { IVerifiedData } from "@/lib/verifyJWT"
+import todoModel from "@/models/todoModel"
 import { revalidatePath } from "next/cache"
+import { cookies } from "next/headers"
 
-export const createTodo = async (title:string,description:string) => {
+export const createTodo = async (formData:FormData) => {
+    const title = formData.get('title') as string
+    const description = formData.get('description') as string
+    await dbConnection()
+    const verifiedToken = await verifyToken() as IVerifiedData
+    console.log(verifiedToken._id)
+    if(!verifiedToken._id){
+        return {
+            success:false,
+            message:"Invalid token please login again."
+        }
+    }
     try {
-        await dbConnection()
-        console.log(title,description)
-        const todo:ITodo = await new todoModel({
+        const todo = await todoModel.create({
             title,
-            description
-        })
+            description,
+            author:verifiedToken._id
+        })        
+        
         if(todo._id){
             revalidatePath('/todo')
             return {
@@ -22,7 +36,8 @@ export const createTodo = async (title:string,description:string) => {
                 message:"Something went wrong."
             }
         }
-    } catch (error) {
+    } catch (error:any) {
+        console.log(error.message)
         return {
             success:false,
             message:"Todo creation failed."

@@ -5,24 +5,21 @@ import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import Link from 'next/link'
 import { Button } from '../ui/button'
-import {toast} from 'react-hot-toast'
 import { ITodo } from '@/models/todoModel'
 import { useRouter } from 'next/navigation'
+import {toast} from 'react-hot-toast'
 
 function CreateTodoForm() {
     const router = useRouter()
   return (
     <form action={async function(formData:FormData){
-        const title = formData.get('title') as string
-        const description = formData.get('description') as string
-        const resp = await createTodo(title,description)
+        const resp = await createTodo(formData)
         if(resp?.success){
             toast.success(resp.message)
             router.push('/todo')
         }else{
             toast.error(resp.message)
         }
-        console.log(title,description)
       }}>
         <div className="grid w-full items-center gap-4">
           <div className="flex flex-col space-y-1.5">

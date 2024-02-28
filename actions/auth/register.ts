@@ -1,5 +1,5 @@
 "use server";
-import { dbConnection } from "@/lib/dbConnect";
+import dbConnection from "@/lib/dbConnect";
 import { userModel } from "@/models/userModel";
 import bcrypt from 'bcryptjs'
 import {redirect} from 'next/navigation'
@@ -32,7 +32,6 @@ export const userRegistrationMethod = async (formData:FormData) => {
       }
     }
   } catch (error) {
-    console.log("Error occurred in createTodo serverAction.", error);
     return {
       success:false,
       message:"something went wrong."

@@ -1,7 +1,7 @@
 "use server";
 import { userModel } from "@/models/userModel";
 import { IUser } from "@/models/userModel";
-import { dbConnection } from "@/lib/dbConnect";
+import dbConnection from "@/lib/dbConnect";
 import jwt from "jsonwebtoken";
 import {cookies} from "next/headers"
 
@@ -44,7 +44,6 @@ export const userLoginMethod = async (formData:FormData) => {
       }
     }
   } catch (error: any) {
-    console.log("Error occurred in login server action method. ", error);
     return {
       success:false,
       message:error?.message || "Something went wrong while logged In"

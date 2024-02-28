@@ -3,7 +3,6 @@ const authMiddleware = async (req:NextRequest) => {
     const path = req.nextUrl.pathname
     const isPublicPath = path=='/login' || path=='/register'
     const token = req.cookies.get("token")?.value || ""
-    console.log(token)
     // if the user is in public path home page and the user have token means the user is authorized 
     if(isPublicPath && token){
         return NextResponse.redirect(new URL('/todo',req.url))

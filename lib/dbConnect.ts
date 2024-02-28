@@ -2,17 +2,22 @@ import mongoose from "mongoose"
 let isConnect = false
 
 
-export const dbConnection = async () => {
+const dbConnection = async () => {
+    if(isConnect){
+        console.log("Database is already connected.")
+        return false
+    }
     try {
-        if(!isConnect){
-            const {connection} = await mongoose.connect(process.env.MONGODB_URI!)
+        if(isConnect==false){
+            const connect = await mongoose.connect(process.env.DATABASE_URL!)
             isConnect=true
             console.log("mongodb connected successfully")
-        }else{
-            console.log('Database is already connected.')
+            return true
         }
     } catch (e) {
         console.log("Error is occoured : ",e)
         isConnect=false
     }
 }
+
+export default dbConnection

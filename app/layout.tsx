@@ -18,10 +18,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-slate-500 px-4 md:px-12 lg:px-20 xl:px-32`}>
+      <body className={`${inter.className} bg-slate-500`}>
+        <main className="px-4 md:px-12 lg:px-20 xl:px-32">
         <Navbar/>
         {children}
         <Toaster/>
+        </main>
         </body>
     </html>
   );
