@@ -42,3 +42,40 @@ export const updateTodoStatus = async (id:string) => {
     }
 }
 
+export const updateWholeTodo = async (formData:FormData) => {
+    try {
+        await dbConnection()
+        const title = formData.get('title')
+        const description = formData.get('description')
+        const todo = formData.get('sub-todo')
+        const todo_id = formData.get('_id')
+        console.log(title,description,todo,todo_id)
+        const todoRes = await todoModel.findByIdAndUpdate(todo_id,{
+            $set:{
+                title:title,
+                description:description,
+                subTodo:todo_id
+            }
+        })
+        console.log(todoRes)
+        if(todoRes){
+            revalidatePath('/todo')
+            return{
+                success:true,
+                message:"Updated successfully"
+            }
+        }else{
+            return{
+                success:false,
+                message:"Something went wrong"
+            }
+        }
+        
+    } catch (error:any) {
+        console.log(error.message)
+        return {
+            success:false,
+            message:"Try again"
+        }
+    }
+}

@@ -8,6 +8,8 @@ import { cookies } from "next/headers"
 export const createTodo = async (formData:FormData) => {
     const title = formData.get('title') as string
     const description = formData.get('description') as string
+    const subTodo = formData.get('sub-todo')
+    console.log(subTodo)
     await dbConnection()
     const verifiedToken = await verifyToken() as IVerifiedData
     console.log(verifiedToken._id)
@@ -21,7 +23,8 @@ export const createTodo = async (formData:FormData) => {
         const todo = await todoModel.create({
             title,
             description,
-            author:verifiedToken._id
+            author:verifiedToken._id,
+            subTodo:subTodo
         })        
         
         if(todo._id){

@@ -4,7 +4,6 @@ import TodoRadioButton from '@/components/UDC/TodoRadioButton'
 import { Button } from '@/components/ui/button'
 import { Card, CardDescription, CardFooter, CardTitle } from '@/components/ui/card'
 import { ITodo } from '@/models/todoModel'
-import React,{SetStateAction, useEffect,useState} from 'react'
 
 async function Todo() {
   const todo = await fetchAllTodoOfSingleUser()
